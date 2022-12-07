@@ -1,0 +1,159 @@
+﻿
+@{
+    Layout = null;
+}
+@*@model IEnumerable<DataEntryICTSBM.Models.DataEntryDetails>*@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DataEntry Count</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <title>ADVANCE COUNTTABLE</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <style>
+        th {
+            background-color: powderblue;
+            height: 40px;
+        }
+    </style>
+</head>
+<style>
+    .table-responsive {
+        display: inline-table !important;
+    }
+        .css-serial {
+        counter-reset: serial-number;
+        /* Set the serial number counter to 0 */
+    }
+
+        .css-serial td:first-child:before {
+            counter-increment: serial-number+1;
+            /* Increment the serial number counter */
+            content: counter(serial-number);
+            /* Display the counter */
+        }
+
+    /*  table {
+        font-family: Arial;
+        border: solid;
+        border-width: 1px;
+        border-color: #dedede;
+        border-radius: 5px;
+    }
+
+    th {
+        background-color: #efefef;
+    }
+
+    td {
+        padding: 3px;
+        margin: 3px;
+    }*/
+</style>
+<body>
+    <h3 style="text-align:center;font-weight:bold">DATAENTRY COUNT TABLE</h3>
+
+    <div style="padding-left:110px;">
+        <table>
+
+            <tbody>
+                <tr>
+                    <td>
+                        <span id="Label1" style="font-weight:bold;">ULB:</span>
+                    </td>
+
+                    <td>
+                        <input name="TxtSearch" type="text" id="myInput" onkeyup="myFunction()">
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+    <br />
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="table-responsive">
+
+                    <div>
+                        <table id="myTable" class="table table-bordered table-responsive table-hover css-serial">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Sr.No</th>
+                                    <th scope="col">ULB Name </th>
+                                    <th scope="col">Total Count </th>
+                                    <th scope="col">Update Count </th>
+                                    <th scope="col">DataEntry Count</th>
+                                    <th scope="col">Todays DataEntry Count</th>
+                                    <th scope="col">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var d in ViewBag.data)
+                                {
+                                    <tr>
+                                        <td></td>
+                                        <td>@d.appName</td>
+                                        <td>@d.total_count</td>
+                                        <td>@d.updated_count</td>
+                                        <td>@d._count</td>
+                                        <td><span style="color:green;font-weight:bolder">@d.Todays_count</span></td>
+                                        @*<td>@d._date</td>*@
+                                        <td>@Convert.ToDateTime(@d._date).ToString("dd/MM/yyyy")</td>
+
+                                    </tr>
+
+                                }
+                            </tbody>
+
+
+                        </table>
+                    </div>
+                </div>
+                <a type="btngooglehit" class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index" style="font-weight:bold;float:right">
+                    BACK
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script>
+        function myFunction() {
+            debugger;
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
