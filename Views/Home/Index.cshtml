@@ -124,6 +124,7 @@
 
 
     </div>-->
+
     <div class="container-fluid">
         <div class="row">
             <div class="col col-md-6" style="display:none;">
@@ -198,9 +199,22 @@
                             <div class="col-sm-1"></div>
                         </div>
                     </div>
+                </div>
+                <div class="col col-md-3"></div>
             </div>
-            <div class="col col-md-3"></div>
         </div>
     </div>
+
+
+    @if (ViewBag.errormsg != null)
+    {
+        <script type="text/javascript">
+
+            window.onload = function () {
+                alert("@ViewBag.errormsg");
+            };
+        </script>
+
+    }
 </body>
 </html>

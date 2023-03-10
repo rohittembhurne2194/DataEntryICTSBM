@@ -31,6 +31,11 @@ namespace DataEntryICTSBM.Controllers
 
         public IActionResult Index()
         {
+            if(TempData["errorMessage"] != null)
+            {
+                @ViewBag.errormsg = TempData["errorMessage"].ToString();
+                return View();
+            }
             return View();
         }
 
@@ -59,38 +64,115 @@ namespace DataEntryICTSBM.Controllers
 
         public IActionResult HouseDataEntry()
         {
-            var data = _context.HouseEntryCount.FromSqlRaw("HouseEntryCount").ToList();
+            try
+            {
+                var data = _context.HouseEntryCount.FromSqlRaw("HouseEntryCount").ToList();
 
-            @ViewBag.data = data;
+                if (data != null)
+                {
+                    @ViewBag.data = data;
 
-            return View();
+                    return View();
+                }
+                else
+                {
+                    TempData["errorMessage"] = "Please Try Again Later";
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                TempData["errorMessage"] = ex.Message.ToString();
+                return RedirectToAction("Index");
+
+            }
         }
 
         public IActionResult DumpYardDataEntry()
         {
-            var data = _context.HouseEntryCount.FromSqlRaw("DumpYardEntryCount").ToList();
+            try
+            {
+                var data = _context.HouseEntryCount.FromSqlRaw("DumpYardEntryCount").ToList();
+                if (data != null)
+                {
+                    @ViewBag.data = data;
 
-            ViewBag.data = data;
 
-            return View();
+                    return View();
+                }
+                else
+                {
+                    TempData["errorMessage"] = "Please Try Again Later";
+                    return RedirectToAction("Index");
+                }
+            }
+
+            catch (Exception ex)
+            {
+
+                TempData["errorMessage"] = ex.Message.ToString();
+                return RedirectToAction("Index");
+
+            }
         }
 
         public IActionResult LiquidDataEntry()
         {
-            var data = _context.HouseEntryCount.FromSqlRaw("LiquidEntryCount").ToList();
+            try
+            {
+                var data = _context.HouseEntryCount.FromSqlRaw("LiquidEntryCount").ToList();
 
-            ViewBag.data = data;
+                if (data != null)
+                {
+                    @ViewBag.data = data;
 
-            return View();
+
+                    return View();
+                }
+                else
+                {
+                    TempData["errorMessage"] = "Please Try Again Later";
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                TempData["errorMessage"] = ex.Message.ToString();
+                return RedirectToAction("Index");
+
+            }
+         
         }
 
         public IActionResult StreetDataEntry()
         {
-            var data = _context.HouseEntryCount.FromSqlRaw("StreetEntryCount").ToList();
+            try
+            {
+                var data = _context.HouseEntryCount.FromSqlRaw("StreetEntryCount").ToList();
+
+                if (data != null)
+                {
+                    @ViewBag.data = data;
 
 
-            ViewBag.data = data;
-            return View();
+                    return View();
+                }
+                else
+                {
+                    TempData["errorMessage"] = "Please Try Again Later";
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                TempData["errorMessage"] = ex.Message.ToString();
+                return RedirectToAction("Index");
+
+            }
+           
         }
     }
 }
