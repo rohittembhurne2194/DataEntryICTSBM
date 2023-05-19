@@ -66,19 +66,44 @@ namespace DataEntryICTSBM.Controllers
         {
             try
             {
-                var data = _context.HouseEntryCount.FromSqlRaw("HouseEntryCount").ToList();
-
-                if (data != null)
+                using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
                 {
-                    @ViewBag.data = data;
+                    connection.Open();
 
-                    return View();
+                    var command = connection.CreateCommand();
+                    _context.Database.SetCommandTimeout(TimeSpan.FromMinutes(20));
+
+                    const string CheckIfTableExistsStatement = "SELECT * FROM sys.objects WHERE name = N'HouseEntryCount'";
+                    command.CommandText = CheckIfTableExistsStatement;
+                    var executeScalar = command.ExecuteScalar();
+                    if (executeScalar != null)
+                    {
+                        var data = _context.HouseEntryCount.FromSqlRaw("HouseEntryCount").ToList();
+
+                        if (data != null)
+                        {
+                            @ViewBag.data = data;
+                            @ViewBag.TotalCount = data.Sum(x => x.total_count);
+                            @ViewBag.UpdateCount = data.Sum(x => x.updated_count);
+                            @ViewBag.Count = data.Sum(x => x._count);
+                            @ViewBag.TodayTotal = data.Sum(x => x.Todays_count);
+
+                            return View();
+                        }
+                        else
+                        {
+                            TempData["errorMessage"] = "Please Try Again Later";
+                            return RedirectToAction("Index");
+                        }
+                    }
+                    else
+                    {
+                        TempData["errorMessage"] = "Please Try Again Later";
+                        return RedirectToAction("Index");
+                    }
+
                 }
-                else
-                {
-                    TempData["errorMessage"] = "Please Try Again Later";
-                    return RedirectToAction("Index");
-                }
+                   
             }
             catch (Exception ex)
             {
@@ -93,19 +118,44 @@ namespace DataEntryICTSBM.Controllers
         {
             try
             {
-                var data = _context.HouseEntryCount.FromSqlRaw("DumpYardEntryCount").ToList();
-                if (data != null)
+                using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
                 {
-                    @ViewBag.data = data;
+                    connection.Open();
 
+                    var command = connection.CreateCommand();
+                    _context.Database.SetCommandTimeout(TimeSpan.FromMinutes(20));
 
-                    return View();
+                    const string CheckIfTableExistsStatement = "SELECT * FROM sys.objects WHERE name = N'DumpYardEntryCount'";
+                    command.CommandText = CheckIfTableExistsStatement;
+                    var executeScalar = command.ExecuteScalar();
+                    if (executeScalar != null)
+                    {
+                        var data = _context.HouseEntryCount.FromSqlRaw("DumpYardEntryCount").ToList();
+
+                        if (data != null)
+                        {
+                            @ViewBag.data = data;
+                            @ViewBag.TotalCount = data.Sum(x => x.total_count);
+                            @ViewBag.UpdateCount = data.Sum(x => x.updated_count);
+                            @ViewBag.Count = data.Sum(x => x._count);
+                            @ViewBag.TodayTotal = data.Sum(x => x.Todays_count);
+
+                            return View();
+                        }
+                        else
+                        {
+                            TempData["errorMessage"] = "Please Try Again Later";
+                            return RedirectToAction("Index");
+                        }
+                    }
+                    else
+                    {
+                        TempData["errorMessage"] = "Please Try Again Later";
+                        return RedirectToAction("Index");
+                    }
+
                 }
-                else
-                {
-                    TempData["errorMessage"] = "Please Try Again Later";
-                    return RedirectToAction("Index");
-                }
+               
             }
 
             catch (Exception ex)
@@ -121,20 +171,44 @@ namespace DataEntryICTSBM.Controllers
         {
             try
             {
-                var data = _context.HouseEntryCount.FromSqlRaw("LiquidEntryCount").ToList();
-
-                if (data != null)
+                using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
                 {
-                    @ViewBag.data = data;
+                    connection.Open();
 
+                    var command = connection.CreateCommand();
+                    _context.Database.SetCommandTimeout(TimeSpan.FromMinutes(20));
 
-                    return View();
+                    const string CheckIfTableExistsStatement = "SELECT * FROM sys.objects WHERE name = N'LiquidEntryCount'";
+                    command.CommandText = CheckIfTableExistsStatement;
+                    var executeScalar = command.ExecuteScalar();
+                    if (executeScalar != null)
+                    {
+                        var data = _context.HouseEntryCount.FromSqlRaw("LiquidEntryCount").ToList();
+
+                        if (data != null)
+                        {
+                            @ViewBag.data = data;
+                            @ViewBag.TotalCount = data.Sum(x => x.total_count);
+                            @ViewBag.UpdateCount = data.Sum(x => x.updated_count);
+                            @ViewBag.Count = data.Sum(x => x._count);
+                            @ViewBag.TodayTotal = data.Sum(x => x.Todays_count);
+
+                            return View();
+                        }
+                        else
+                        {
+                            TempData["errorMessage"] = "Please Try Again Later";
+                            return RedirectToAction("Index");
+                        }
+                    }
+                    else
+                    {
+                        TempData["errorMessage"] = "Please Try Again Later";
+                        return RedirectToAction("Index");
+                    }
+
                 }
-                else
-                {
-                    TempData["errorMessage"] = "Please Try Again Later";
-                    return RedirectToAction("Index");
-                }
+              
             }
             catch (Exception ex)
             {
@@ -150,20 +224,44 @@ namespace DataEntryICTSBM.Controllers
         {
             try
             {
-                var data = _context.HouseEntryCount.FromSqlRaw("StreetEntryCount").ToList();
-
-                if (data != null)
+                using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
                 {
-                    @ViewBag.data = data;
+                    connection.Open();
 
+                    var command = connection.CreateCommand();
+                    _context.Database.SetCommandTimeout(TimeSpan.FromMinutes(20));
 
-                    return View();
+                    const string CheckIfTableExistsStatement = "SELECT * FROM sys.objects WHERE name = N'StreetEntryCount'";
+                    command.CommandText = CheckIfTableExistsStatement;
+                    var executeScalar = command.ExecuteScalar();
+                    if (executeScalar != null)
+                    {
+                        var data = _context.HouseEntryCount.FromSqlRaw("StreetEntryCount").ToList();
+
+                        if (data != null)
+                        {
+                            @ViewBag.data = data;
+                            @ViewBag.TotalCount = data.Sum(x => x.total_count);
+                            @ViewBag.UpdateCount = data.Sum(x => x.updated_count);
+                            @ViewBag.Count = data.Sum(x => x._count);
+                            @ViewBag.TodayTotal = data.Sum(x => x.Todays_count);
+
+                            return View();
+                        }
+                        else
+                        {
+                            TempData["errorMessage"] = "Please Try Again Later";
+                            return RedirectToAction("Index");
+                        }
+                    }
+                    else
+                    {
+                        TempData["errorMessage"] = "Please Try Again Later";
+                        return RedirectToAction("Index");
+                    }
+
                 }
-                else
-                {
-                    TempData["errorMessage"] = "Please Try Again Later";
-                    return RedirectToAction("Index");
-                }
+              
             }
             catch (Exception ex)
             {
