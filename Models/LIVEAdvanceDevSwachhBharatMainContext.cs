@@ -16,6 +16,7 @@ namespace DataEntryICTSBM.Models
 
 
         public virtual DbSet<HouseEntryCount> HouseEntryCount { get; set; }
+        public virtual DbSet<AppDetail> AppDetails { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

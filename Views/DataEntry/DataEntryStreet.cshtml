@@ -1,0 +1,199 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <title>ADVANCE COUNTTABLE</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <style>
+        .table-responsive {
+            display: inline-table !important;
+        }
+
+        .css-serial {
+            counter-reset: serial-number;
+            /* Set the serial number counter to 0 */
+        }
+
+        .css-serial td:first-child:before {
+            counter-increment: serial-number+1;
+            /* Increment the serial number counter */
+            content: counter(serial-number);
+            /* Display the counter */
+        }
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+            animation: spin 2s linear infinite;
+            margin-left: 50%;
+        }
+
+        /* Safari */
+        @@-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @@keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        #ulblist {
+            height: 35px;
+            border: 1px solid #ddd;
+            padding-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row" style="padding-top: 5%;">
+            <div class="col-sm-4">
+                <div class="controls">
+                    @*<label>तारखेपासून / From Date</label>*@
+                    <label>Select ULB</label>
+                    <select id="ulblist" class="form-control form-control form-control-sm"></select>
+                </div>
+            </div>
+            <div class="col-sm-2" style="padding-top: 2%;">
+                <div class="controls">
+                    <input data-background-color="filter-button-box-color" class="btn btn-sm btn-success filter-button-style" type="button" value="Filter Records" id="filter" onclick="Search()" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="offset-9 col-md-2">
+                <a type="btngooglehit" class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index" style="font-weight:bold;float:right">
+                    BACK
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div id="frameWrap">
+                @*<img id="loader1" src="~/Images/add_image_square.png" width="36" height="36" alt="loading gif" />*@
+                @*<p id="loader1">Generating Report<span> .</span><span> .</span><span> .</span></p>*@
+                <div id="loader1" class="loader"></div>
+
+                @*<iframe name="iframemc" id="iframemc" frameborder="0" style="width:11.37465in;height:600px;background-color: white; float:none; margin-left:5px; overflow:hidden"></iframe>*@
+                <iframe name="iframemc" id="iframemc" scrolling="yes" frameborder="0" style="background-color: white; float:none;  overflow:hidden" width="1430" height="820"></iframe>
+
+            </div>
+
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(function () {
+            $("#ulblist").select2();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "get",
+                url: "/Home/ListAllApp",
+                contentType: 'application/json;',
+                dataType: 'json',
+                //traditional: true,
+                success: function (data) {
+                    //console.log(data);
+                    ulbslist = '<option value="-1">Select App Name</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        ulbslist = ulbslist + '<option value=' + data[i].value + '>' + data[i].text + '</option>';
+                    }
+                    //district = district + '</select>';
+                    $('#ulblist').html(ulbslist);
+                }
+            });
+
+            debugger;
+
+            var defaultAppId = "0";
+            $.ajax({
+                type: "get",
+                url: "/DataEntry/StreetDataEntry",
+                data: { Appid: defaultAppId },
+                contentType: 'application/json;',
+                dataType: 'html', // Expect HTML content
+                success: function (htmlContent) {
+                    console.log(htmlContent);
+                    // Set the HTML content as the content of the iframe
+                    // $('#iframemc').contents().find('html').html(htmlContent);
+                    $('#iframemc').attr('srcdoc', htmlContent);
+                },
+                error: function (xhr, status, error) {
+                    // Handle the error by displaying it in the iframe
+                    console.log(xhr.responseText);
+                    var errorHtml = '<h1>Error</h1><p>' + xhr.responseText + '</p>';
+                    $('#iframemc').contents().find('html').html(errorHtml);
+                },
+                complete: function () {
+                    // Hide the loader when the request is complete
+                    $('#loader1').hide();
+                }
+            });
+        });
+
+        function Search() {
+            debugger;
+            $('#iframemc').hide();
+            $('#loader1').show();
+            var AppId = $('#ulblist').val();
+            $.ajax({
+                type: "get",
+                url: "/DataEntry/StreetDataEntry",
+                data: { Appid: AppId },
+                contentType: 'application/json;',
+                dataType: 'html', // Expect HTML content
+                success: function (htmlContent) {
+                    console.log(htmlContent);
+                    // Set the HTML content as the content of the iframe
+                    // $('#iframemc').contents().find('html').html(htmlContent);
+                    $('#iframemc').attr('srcdoc', htmlContent);
+                },
+                error: function (xhr, status, error) {
+                    // Handle the error by displaying it in the iframe
+                    console.log(xhr.responseText);
+                    var errorHtml = '<h1>Error</h1><p>' + xhr.responseText + '</p>';
+                    $('#iframemc').contents().find('html').html(errorHtml);
+                },
+                complete: function () {
+                    // Hide the loader when the request is complete
+                    $('#loader1').hide();
+                    $('#iframemc').show();
+                }
+            });
+
+        }
+    </script>
+</body>
+</html>

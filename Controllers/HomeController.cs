@@ -8,7 +8,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
+using System.Web.WebPages.Html;
 
 namespace DataEntryICTSBM.Controllers
 {
@@ -271,6 +273,49 @@ namespace DataEntryICTSBM.Controllers
 
             }
            
+        }
+
+        public ActionResult ListAllApp()
+        {
+
+
+            List<SelectListItem> lstApps = GetUlbList();
+            //return Json(lstApps, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+            //return Json(lstApps);
+
+            // Create JsonSerializerOptions
+            var jsonSerializerOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true // Optional: to make the output more readable
+            };
+
+            // Return JsonResult with data and serializer settings
+            return new JsonResult(lstApps)
+            {
+                SerializerSettings = jsonSerializerOptions
+            };
+
+        }
+
+        public List<SelectListItem> GetUlbList()
+        {
+            var apps = new List<SelectListItem>();
+
+            try
+            {
+
+                apps = _context.AppDetails.Where(a => a.IsActive == true).Select(x => new SelectListItem
+                {
+                    Value = x.AppId.ToString(),
+                    Text = x.AppName
+                }).OrderBy(t => t.Text).ToList();
+
+
+            }
+            catch (Exception ex) { return apps; }
+
+            return apps;
         }
     }
 }
