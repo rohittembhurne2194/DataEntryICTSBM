@@ -16,8 +16,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="https://cdpn.io/vank0/fullpage/mrRwLg?anon=true&view="/>
-    <style>
+    <link href="https://cdpn.io/vank0/fullpage/mrRwLg?anon=true&view=" />
+    <link href="~/css/MyStyle.css" rel="stylesheet" />
+    @*<style>
+        body {
+            overflow: auto;
+            width: 95%;
+        }
+
         .table-responsive {
             display: inline-table !important;
         }
@@ -27,12 +33,13 @@
             /* Set the serial number counter to 0 */
         }
 
-        .css-serial td:first-child:before {
-            counter-increment: serial-number+1;
-            /* Increment the serial number counter */
-            content: counter(serial-number);
-            /* Display the counter */
-        }
+            .css-serial td:first-child:before {
+                counter-increment: serial-number+1;
+                /* Increment the serial number counter */
+                content: counter(serial-number);
+                /* Display the counter */
+            }
+
         .loader {
             border: 16px solid #f3f3f3;
             border-radius: 50%;
@@ -43,17 +50,28 @@
             animation: spin 2s linear infinite;
             margin-left: 50%;
         }
-       
+
         /* Safari */
         @@-webkit-keyframes spin {
-            0% { -webkit-transform: rotate(0deg); }
-          100% { -webkit-transform: rotate(360deg); }
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
         }
 
         @@keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
+
         #ulblist {
             height: 35px;
             border: 1px solid #ddd;
@@ -70,42 +88,45 @@
             border-color: #FFF #FFF transparent transparent;
             animation: rotation 1s linear infinite;
         }
-        .loader-11:before {
-            width: 80px;
-            height: 80px;
-            border-color: #FFF #FFF transparent transparent;
-            animation: rotation 1.5s linear infinite;
-        }
-        .loader-11:before {
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            margin: auto;
-            border: 3px solid;
-            border-radius: 50%;
-            transform-origin: center center;
-        }
-        .loader-11:after {
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            margin: auto;
-            border: 3px solid;
-            border-color: transparent transparent #FF3D00 #FF3D00;
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            animation: rotationBack 0.5s linear infinite;
-            transform-origin: center center;
-        }
 
-        
+            .loader-11:before {
+                width: 80px;
+                height: 80px;
+                border-color: #FFF #FFF transparent transparent;
+                animation: rotation 1.5s linear infinite;
+            }
+
+            .loader-11:before {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+                border: 3px solid;
+                border-radius: 50%;
+                transform-origin: center center;
+            }
+
+            .loader-11:after {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+                border: 3px solid;
+                border-color: transparent transparent #FF3D00 #FF3D00;
+                width: 65px;
+                height: 65px;
+                border-radius: 50%;
+                animation: rotationBack 0.5s linear infinite;
+                transform-origin: center center;
+            }
+
+
         section {
             min-width: 200px;
             padding: 10px;
@@ -117,14 +138,17 @@
             cursor: pointer;
             transition: 0.3s linear;
         }
-        @@-webkit-keyframes rotation{
+
+        @@-webkit-keyframes rotation {
             0% {
                 transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(360deg);
             }
         }
+
         @@keyframes rotation {
             0% {
                 transform: rotate(0deg);
@@ -134,7 +158,7 @@
                 transform: rotate(360deg);
             }
         }
-    </style>
+    </style>*@
 </head>
 
 <body>
