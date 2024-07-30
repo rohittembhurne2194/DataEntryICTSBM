@@ -23,19 +23,28 @@ namespace DataEntryICTSBM
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        //public void ConfigureServices(IServiceCollection services)
+        //{
+        //    var connectionString = Configuration.GetConnectionString("MainDB");
+        //    services.AddEntityFrameworkSqlServer();
+        //    services.AddDbContextPool<LIVEAdvanceDevSwachhBharatMainContext>(option =>
+        //    //option.UseSqlServer(connectionString)
+        //    option.UseSqlServer(Configuration.GetConnectionString("MainDB"),
+        //    sqlServerOptions => sqlServerOptions.CommandTimeout(120)));
+
+        //    services.AddControllersWithViews();
+        //    // services.AddControllersWithViews();
+        //}
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("MainDB");
-            services.AddEntityFrameworkSqlServer();
-            services.AddDbContextPool<LIVEAdvanceDevSwachhBharatMainContext>(option =>
-            //option.UseSqlServer(connectionString)
-            option.UseSqlServer(Configuration.GetConnectionString("MainDB"),
-            sqlServerOptions => sqlServerOptions.CommandTimeout(120)));
+            services.AddDbContextPool<LIVEAdvanceDevSwachhBharatMainContext>(options =>
+                options.UseSqlServer(connectionString, sqlServerOptions =>
+                    sqlServerOptions.CommandTimeout(120))
+            );
 
             services.AddControllersWithViews();
-            // services.AddControllersWithViews();
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
