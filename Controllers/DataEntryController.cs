@@ -286,5 +286,72 @@ namespace DataEntryICTSBM.Controllers
 
             }
         }
+
+
+        public IActionResult DataEntryMasterPlate()
+        {
+            return View();
+        }
+
+        public IActionResult MasterPlateDataEntry(string Appid)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
+                {
+                    connection.Open();
+
+                    var command = connection.CreateCommand();
+                    _context.Database.SetCommandTimeout(TimeSpan.FromMinutes(30));
+
+                    const string CheckIfTableExistsStatement = "SELECT * FROM sys.objects WHERE name = N'MasterPlateEntryCount'";
+                    command.CommandText = CheckIfTableExistsStatement;
+                    var executeScalar = command.ExecuteScalar();
+                    if (executeScalar != null)
+                    {
+                        int NAppId = Convert.ToInt32(Appid);
+                        List<SqlParameter> parms = new List<SqlParameter>
+                        {
+                        // Create parameter(s)
+                        new SqlParameter { ParameterName = "@Nappid", Value = NAppId },
+
+                        };
+
+                        var data = _context.HouseEntryCount.FromSqlRaw("MasterPlateEntryCount @Nappid", parms.ToArray()).ToList();
+
+                        if (data != null)
+                        {
+                            @ViewBag.data = data;
+                            @ViewBag.TotalCount = data.Sum(x => x.total_count);
+                            @ViewBag.UpdateCount = data.Sum(x => x.updated_count);
+                            @ViewBag.Count = data.Sum(x => x._count);
+                            @ViewBag.TodayTotal = data.Sum(x => x.Todays_count);
+
+                            //return View();
+                            return PartialView("_MasterPlateDataEntryPartial");
+
+                        }
+                        else
+                        {
+                            return Json(new { ErrorMessage = "Please Try Again Later" });
+                        }
+                    }
+                    else
+                    {
+                        return Json(new { ErrorMessage = "Please Try Again Later" });
+                    }
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { ErrorMessage = ex.Message.ToString() });
+
+            }
+        }
     }
 }
